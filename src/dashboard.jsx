@@ -43,9 +43,11 @@ function Dashboard() {
 
 
     // edit
+    const nav = useNavigate()
+
     function editItem(item) {
         localStorage.setItem("editLead", JSON.stringify(item));
-        window.location.href = "/leads"
+        nav("/leads")
     }
 
 
