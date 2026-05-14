@@ -36,13 +36,19 @@ function Leads() {
 
 
 
-    async function saveLead() {
+    async function save() {
         const data = { name, email, phone, status }
 
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
         if (editId) {
-            await axios.put(`${api}/${editId}`, data, { headers: { authorization: token } })
+            await axios.put(`${api}/${editId}`, data, config)
         } else {
-            await axios.post(`${api}`, data, { headers: { authorization: token } })
+            await axios.post(api, data, config)
         }
 
         setName("")
@@ -98,7 +104,7 @@ function Leads() {
                 <Button
                     variant="contained"
                     sx={{ mt: 2 }}
-                    onClick={saveLead}
+                    onClick={save}
                 >
                     {editId ? "Update Lead" : "Add Lead"}
                 </Button>
