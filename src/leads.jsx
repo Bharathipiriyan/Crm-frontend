@@ -45,22 +45,20 @@ function Leads() {
             }
         }
 
-        if (editId) {
-            await axios.put(`${api}/${editId}`, data, config)
-        } else {
-            await axios.post(api, data, config)
+        try {
+            if (editId) {
+                await axios.put(`${api}/${editId}`, data, config)
+            } else {
+                const res = await axios.post(api, data, config)
+                console.log("ADD RESPONSE:", res.data)
+            }
+
+            nav("/dashboard")
+
+        } catch (err) {
+            console.log("ERROR:", err.response?.data || err.message)
         }
-
-        setName("")
-        setEmail("")
-        setPhone("")
-        setStatus("")
-        setEditId("")
-
-        nav("/dashboard")
     }
-
-
 
     //ui
     return (
