@@ -5,6 +5,7 @@ import Navbar from "./navbar"
 import { Container, TextField, Button, Card, CardContent, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, } from "@mui/material"
 
 function Dashboard() {
+    const nav = useNavigate()
 
     const api = "https://crm-backend-1-3efa.onrender.com/leads"
 
@@ -44,7 +45,7 @@ function Dashboard() {
 
 
     // edit
-    const nav = useNavigate()
+   
 
     function editItem(item) {
         localStorage.setItem("editLead", JSON.stringify(item));
