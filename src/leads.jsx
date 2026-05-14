@@ -1,64 +1,63 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Navbar from "./navbar";
-import { Container, TextField, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react"
+import axios from "axios"
+import Navbar from "./navbar"
+import { Container, TextField, Button, Typography } from "@mui/material"
+import { useNavigate } from "react-router-dom"
 
 function Leads() {
 
-    const nav = useNavigate();
-    const token = localStorage.getItem("token");
+    const nav = useNavigate()
+    const token = localStorage.getItem("token")
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [status, setStatus] = useState("");
-    const [editId, setEditId] = useState("");
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [status, setStatus] = useState("")
+    const [editId, setEditId] = useState("")
 
-    
+
     // load edit data
     useEffect(() => {
-        const data = localStorage.getItem("editLead");
+        const data = localStorage.getItem("editLead")
 
         if (data) {
-            const lead = JSON.parse(data);
-            setName(lead.name);
-            setEmail(lead.email);
-            setPhone(lead.phone);
-            setStatus(lead.status);
-            setEditId(lead._id);
+            const lead = JSON.parse(data)
+            setName(lead.name)
+            setEmail(lead.email)
+            setPhone(lead.phone)
+            setStatus(lead.status)
+            setEditId(lead._id)
 
-            localStorage.removeItem("editLead");
+            localStorage.removeItem("editLead")
         }
-    }, []);
-
+    }, [])
 
 
 
     async function saveLead() {
-        const data = { name, email, phone, status };
+        const data = { name, email, phone, status }
 
         if (editId) {
             await axios.put(
                 `http://localhost:5000/leads/${editId}`,
                 data,
                 { headers: { authorization: token } }
-            );
+            )
         } else {
             await axios.post(
                 "http://localhost:5000/leads",
                 data,
                 { headers: { authorization: token } }
-            );
+            )
         }
 
-        setName("");
-        setEmail("");
-        setPhone("");
-        setStatus("");
-        setEditId("");
+        setName("")
+        setEmail("")
+        setPhone("")
+        setStatus("")
+        setEditId("")
 
-        nav("/dashboard");
+        nav("/dashboard")
     }
 
 
@@ -79,8 +78,7 @@ function Leads() {
                     label="Name"
                     sx={{ mt: 3 }}
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
+                    onChange={(e) => setName(e.target.value)}/>
 
                 <TextField
                     fullWidth
@@ -114,4 +112,4 @@ function Leads() {
         </div>
     );
 }
-export default Leads;
+export default Leads

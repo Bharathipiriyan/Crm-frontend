@@ -1,9 +1,10 @@
-import React from "react";
-import { AppBar, Toolbar, Button, } from "@mui/material";
+import React from "react"
+import { AppBar, Toolbar, Button, } from "@mui/material"
+import { useNavigate, } from "react-router-dom"
 
-import { useNavigate, } from "react-router-dom";
 function Navbar() {
-    const nav = useNavigate();
+    const nav = useNavigate()
+
     function logout() {
         localStorage.removeItem(
             "token"
@@ -11,8 +12,9 @@ function Navbar() {
         nav("/login");
     }
 
+    //ui
     return (
-        <AppBar position="static">
+        <AppBar position="static" >
             <Toolbar>
                 <Button
                     color="inherit"
@@ -35,10 +37,15 @@ function Navbar() {
                 <Button
                     color="inherit"
                     onClick={() =>
-                        nav("/leads")
-                    }
-                >
+                        nav("/leads")}>
                     Leads
+                </Button>
+
+                <Button
+                    color="inherit"
+                    onClick={() => { nav("/login") }}
+                >
+                    Login
                 </Button>
 
                 <Button
@@ -49,8 +56,7 @@ function Navbar() {
                 </Button>
 
             </Toolbar>
-
         </AppBar>
-    );
+    )
 }
-export default Navbar;
+export default Navbar

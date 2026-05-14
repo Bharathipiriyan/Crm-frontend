@@ -1,24 +1,26 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Navbar from "./navbar";
-import { Container, TextField, Button, Card, CardContent, Typography } from "@mui/material";
+import { useEffect, useState } from "react"
+import axios from "axios"
+import Navbar from "./navbar"
+import { Container, TextField, Button, Card, CardContent, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, } from "@mui/material"
 
 function Dashboard() {
 
-    const [data, setData] = useState([]);
-    const [text, setText] = useState("");
-    const token = localStorage.getItem("token");
+    const [data, setData] = useState([])
+    const [text, setText] = useState("")
 
-    // get
+
+    const token = localStorage.getItem("token")
+
+    //this get
     async function getData() {
         try {
             const res = await axios.get("http://localhost:5000/leads", {
                 headers: { authorization: token }
             });
-            setData(Array.isArray(res.data) ? res.data : []);
+            setData(Array.isArray(res.data) ? res.data : [])
         } catch (err) {
-            console.log(err);
-            setData([]);
+            console.log(err)
+            setData([])
         }
     }
 
@@ -26,7 +28,7 @@ function Dashboard() {
     //page mounting fetch happens
     useEffect(() => {
         getData();
-    }, []);
+    }, [])
 
 
     // del
@@ -34,21 +36,22 @@ function Dashboard() {
         await axios.delete(`http://localhost:5000/leads/${id}`, {
             headers: { authorization: token }
         });
-        getData();
+        getData()
     }
 
-    
+
     // edit
     function editItem(item) {
-        localStorage.setItem("editLead", JSON.stringify(item));
-        window.location.href = "/leads";
+    localStorage.setItem("editLead", JSON.stringify(item));
+        window.location.href = "/leads"
     }
 
 
     // search
     const result = data.filter((item) =>
-        item.name.toLowerCase().includes(text.toLowerCase())
+    item.name.toLowerCase().includes(text.toLowerCase())
     );
+
 
 
     //ui
@@ -71,36 +74,52 @@ function Dashboard() {
                     Total: {data.length}
                 </Typography>
 
-                {result.map((item) => (
-                    <Card key={item._id} sx={{ mt: 3 }}>
-                        <CardContent>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Phone</TableCell>
+                                <TableCell>Status</TableCell>
+                                <TableCell>Actions</TableCell>
+                            </TableRow>
+                        </TableHead>
 
-                            <Typography>{item.name}</Typography>
-                            <Typography>{item.email}</Typography>
-                            <Typography>{item.phone}</Typography>
-                            <Typography>{item.status}</Typography>
 
-                            <Button
-                                sx={{ mt: 2, mr: 2 }}
-                                variant="contained"
-                                onClick={() => editItem(item)}>
-                                Edit
-                            </Button>
+                        <TableBody>
+                            {result.map((item) => (
+                                <TableRow key={item._id}>
+                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{item.email}</TableCell>
+                                    <TableCell>{item.phone}</TableCell>
+                                    <TableCell>{item.status}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            sx={{ mt: 2, mr: 2 }}
+                                            variant="contained"
+                                            onClick={() => editItem(item)}
+                                        >
+                                            Edit
+                                        </Button>
 
-                            <Button
-                                sx={{ mt: 2 }}
-                                color="error"
-                                variant="outlined"
-                                onClick={() => removeItem(item._id)}
-                            >
-                                Delete
-                            </Button>
+                                        <Button
+                                            sx={{ mt: 2 }}
+                                            color="error"
+                                            variant="outlined"
+                                            onClick={() => removeItem(item._id)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
 
-                        </CardContent>
-                    </Card>
-                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Container>
         </div>
-    );
+    )
 }
-export default Dashboard;
+export default Dashboard

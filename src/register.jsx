@@ -1,20 +1,20 @@
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
-import { Container, Typography, TextField, Button, } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React from "react"
+import { useState } from "react"
+import axios from "axios"
+import { Container, Typography, TextField, Button, Box } from "@mui/material"
+import { useNavigate } from "react-router-dom"
 
 function Register() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const nav = useNavigate();
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const nav = useNavigate()
 
     //regsiter
     async function register() {
 
         if (!email || !password) {
-            alert("Email and Password required");
-            return;
+            alert("Email and Password required")
+            return
         }
 
         const res = await axios.post(
@@ -24,8 +24,8 @@ function Register() {
                 password,
             }
         );
-        alert(res.data.message);
-        nav("/login");
+        alert(res.data.message)
+        nav("/login")
     }
 
     //for ui
@@ -52,27 +52,27 @@ function Register() {
                 label="Password"
                 sx={{ mb: 2 }}
                 onChange={(e) =>
-                    setPassword(e.target.value)
-                } />
+                    setPassword(e.target.value)} />
 
-            <Button
-                variant="contained"
-                onClick={register}>
-                Register
-            </Button>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Button
+                    variant="contained"
+                    onClick={register}>
+                    Register
+                </Button>
 
-            <Typography
-                variant="p"
-                sx={{ mt: 5, mb: 3 }}
-                > if you already have an account, please login
-            </Typography>
+                <Typography variant="p" color="text.secondary">
+                    Don’t have an account?
+                </Typography>
 
-            <Button
-                variant="contained"
-                onClick={() => { nav("/login") }}>
-                Login
-            </Button>
+                <Button
+                    variant="contained"
+                    onClick={() => { nav("/login") }}>
+                    Login
+                </Button>
+            </Box>
+
         </Container>
-    );
+    )
 }
-export default Register;
+export default Register
