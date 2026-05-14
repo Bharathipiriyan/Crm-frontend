@@ -5,11 +5,14 @@ import { Container, Typography, TextField, Button, Box } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
 function Register() {
+
+    const api = "https://crm-backend-1-3efa.onrender.com/register"
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const nav = useNavigate()
 
-    //regsiter
+    // register
     async function register() {
 
         if (!email || !password) {
@@ -17,23 +20,24 @@ function Register() {
             return
         }
 
-        const res = await axios.post(
-            "http://localhost:5000/register",
-            {
-                email,
-                password,
-            }
-        );
-        alert(res.data.message)
-        nav("/login")
+        try {
+            const res = await axios.post(api, { email, password })
+
+            alert(res.data.message)
+            nav("/login")
+
+        } catch (err) {
+            alert(err.response?.data?.message || "Register failed")
+        }
     }
 
-    //for ui
+    // for ui
     return (
         <Container maxWidth="sm">
             <Typography
                 variant="h4"
-                sx={{ mt: 5, mb: 3 }}>
+                sx={{ mt: 5, mb: 3 }}
+            >
                 Register
             </Typography>
 
@@ -52,12 +56,15 @@ function Register() {
                 label="Password"
                 sx={{ mb: 2 }}
                 onChange={(e) =>
-                    setPassword(e.target.value)} />
+                    setPassword(e.target.value)
+                }
+            />
 
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Button
                     variant="contained"
-                    onClick={register}>
+                    onClick={register}
+                >
                     Register
                 </Button>
 
@@ -67,7 +74,8 @@ function Register() {
 
                 <Button
                     variant="contained"
-                    onClick={() => { nav("/login") }}>
+                    onClick={() => { nav("/login") }}
+                >
                     Login
                 </Button>
             </Box>

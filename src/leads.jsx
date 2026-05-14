@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom"
 
 function Leads() {
 
+    const api = "https://crm-backend-1-3efa.onrender.com/leads"
+
     const nav = useNavigate()
     const token = localStorage.getItem("token")
 
@@ -38,17 +40,9 @@ function Leads() {
         const data = { name, email, phone, status }
 
         if (editId) {
-            await axios.put(
-                `http://localhost:5000/leads/${editId}`,
-                data,
-                { headers: { authorization: token } }
-            )
+            await axios.put(`${api}/${editId}`, data, { headers: { authorization: token } })
         } else {
-            await axios.post(
-                "http://localhost:5000/leads",
-                data,
-                { headers: { authorization: token } }
-            )
+            await axios.post(`${api}`, data, { headers: { authorization: token } })
         }
 
         setName("")
@@ -78,7 +72,7 @@ function Leads() {
                     label="Name"
                     sx={{ mt: 3 }}
                     value={name}
-                    onChange={(e) => setName(e.target.value)}/>
+                    onChange={(e) => setName(e.target.value)} />
 
                 <TextField
                     fullWidth

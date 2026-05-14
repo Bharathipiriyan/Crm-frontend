@@ -4,12 +4,15 @@ import { TextField, Button, Container, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
 function Logincomponent() {
+
+    const api = "https://crm-backend-1-3efa.onrender.com"
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
 
     const nav = useNavigate()
 
-    
+
     async function login() {
         console.log("login called")
 
@@ -19,9 +22,9 @@ function Logincomponent() {
         }
 
         try {
-            const res = await axios.post("http://localhost:5000/login", {
+            const res = await axios.post(`${api}/login`, {
                 email,
-                password,
+                password
             });
 
             if (res.data.token) {

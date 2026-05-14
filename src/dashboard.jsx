@@ -5,6 +5,8 @@ import { Container, TextField, Button, Card, CardContent, Typography, Table, Tab
 
 function Dashboard() {
 
+    const api = "https://crm-backend-1-3efa.onrender.com/leads"
+
     const [data, setData] = useState([])
     const [text, setText] = useState("")
 
@@ -14,7 +16,7 @@ function Dashboard() {
     //this get
     async function getData() {
         try {
-            const res = await axios.get("http://localhost:5000/leads", {
+            const res = await axios.get(api, {
                 headers: { authorization: token }
             });
             setData(Array.isArray(res.data) ? res.data : [])
@@ -33,7 +35,7 @@ function Dashboard() {
 
     // del
     async function removeItem(id) {
-        await axios.delete(`http://localhost:5000/leads/${id}`, {
+        await axios.delete(`${api}/${id}`, {
             headers: { authorization: token }
         });
         getData()
@@ -42,14 +44,14 @@ function Dashboard() {
 
     // edit
     function editItem(item) {
-    localStorage.setItem("editLead", JSON.stringify(item));
+        localStorage.setItem("editLead", JSON.stringify(item));
         window.location.href = "/leads"
     }
 
 
     // search
     const result = data.filter((item) =>
-    item.name.toLowerCase().includes(text.toLowerCase())
+        item.name.toLowerCase().includes(text.toLowerCase())
     );
 
 
