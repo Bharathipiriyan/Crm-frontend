@@ -56,7 +56,7 @@ function Dashboard() {
     // search
     const result = data.filter((item) =>
         item.name.toLowerCase().includes(text.toLowerCase())
-    );
+    )
 
 
 
